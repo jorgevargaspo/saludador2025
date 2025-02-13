@@ -1,0 +1,33 @@
+<html>
+  <body>
+    <h1>Bot Saludador</h1>
+    <form id="saludo-form">
+      <label for="nombre">Nombre:  </label>
+    
+      <input type="text" id="nombre" placeholder="Ingresa tu nombre"/>
+      <br>
+      <label for="edad">Edad: </label>
+      <input type="number" id="edad" placeholder="Ingresa tu edad"/>
+      <br>
+      <label for="genero">Genero: </label>
+      <select id="genero">
+        <option value="">Selecciona tu genero</option>
+        <option value="masculino">Masculino</option>
+        <option value="femenino">Femenino</option>
+      </select>
+      <br>
+      <label for="idioma">Idioma: </label>
+      <select id="idioma">
+        <option value="">Selecciona un idioma</option>
+        <option value="Español">Español</option>
+        <option value="Ingles">Ingles</option>
+      </select>
+      <br>
+      <br>
+
+      <button type="submit">Saludar</button>
+    </form>
+    <div id="saludo-div"></div>
+    <script type="module" src="./src/presenter.js"></script>
+  </body>
+</html>

@@ -1,42 +1,69 @@
-import sumar from "./sumador.js";
-import restar from "./restador.js";
-import multiplicar from "./multiplicador.js";
-import dividir from "./divisor.js";
+// Función para obtener la hora actual y devolver un saludo según la hora
+function obtenerSaludoSegunHora() {
+  const horaActual = new Date().getHours(); // Obtiene la hora actual
 
-document.getElementById("calculadora-form").addEventListener("submit", (event) => {
-  event.preventDefault(); // Evita que el formulario recargue la página
-});
-
-document.getElementById("sumar-button").addEventListener("click", () => calcular("sumar"));
-document.getElementById("restar-button").addEventListener("click", () => calcular("restar"));
-document.getElementById("multiplicar-button").addEventListener("click", () => calcular("multiplicar"));
-document.getElementById("dividir-button").addEventListener("click", () => calcular("dividir"));
-
-function calcular(operacion) {
-  const num1 = parseFloat(document.getElementById("primer-numero").value);
-  const num2 = parseFloat(document.getElementById("segundo-numero").value);
-  let resultado;
-
-  if (isNaN(num1) || isNaN(num2)) {
-    resultado = "Por favor, ingrese números válidos.";
+  if (horaActual >= 5 && horaActual < 12) {
+      return "Buenos días";
+  } else if (horaActual >= 12 && horaActual < 18) {
+      return "Buenas tardes";
   } else {
-    switch (operacion) {
-      case "sumar":
-        resultado = sumar(num1, num2);
-        break;
-      case "restar":
-        resultado = restar(num1, num2);
-        break;
-      case "multiplicar":
-        resultado = multiplicar(num1, num2);
-        break;
-      case "dividir":
-        resultado = dividir(num1, num2);
-        break;
-      default:
-        resultado = "Operación no válida";
-    }
+      return "Buenas noches";
+  }
+}
+
+// Función para generar el saludo personalizado
+function generarSaludo(nombre, edad, genero, idioma) {
+  const saludoBase = obtenerSaludoSegunHora();
+  let saludoPersonalizado = "";
+
+  // Personalizar el saludo según el idioma
+  if (idioma === "Español") {
+      saludoPersonalizado = `${saludoBase}, ${nombre}.`;
+      if (genero === "masculino") {
+          saludoPersonalizado += ` Eres un hombre de ${edad} años.`;
+      } else if (genero === "femenino") {
+          saludoPersonalizado += ` Eres una mujer de ${edad} años.`;
+      } else {
+          saludoPersonalizado += ` Tienes ${edad} años.`;
+      }
+  } else if (idioma === "Ingles") {
+      saludoPersonalizado = `${saludoBase === "Buenos días" ? "Good morning" : saludoBase === "Buenas tardes" ? "Good afternoon" : "Good evening"}, ${nombre}.`;
+      if (genero === "masculino") {
+          saludoPersonalizado += ` You are a ${edad}-year-old man.`;
+      } else if (genero === "femenino") {
+          saludoPersonalizado += ` You are a ${edad}-year-old woman.`;
+      } else {
+          saludoPersonalizado += ` You are ${edad} years old.`;
+      }
+  } else {
+      saludoPersonalizado = "Por favor, selecciona un idioma válido.";
   }
 
-  document.getElementById("resultado-div").textContent = `Resultado: ${resultado}`;
+  return saludoPersonalizado;
 }
+
+// Función para manejar el envío del formulario
+function manejarEnvio(event) {
+  event.preventDefault(); // Evita que el formulario se envíe
+
+  // Obtener los valores del formulario
+  const nombre = document.getElementById("nombre").value;
+  const edad = document.getElementById("edad").value;
+  const genero = document.getElementById("genero").value;
+  const idioma = document.getElementById("idioma").value;
+
+  // Validar que todos los campos estén completos
+  if (!nombre || !edad || !genero || !idioma) {
+      document.getElementById("saludo-div").textContent = "Por favor, completa todos los campos.";
+      return;
+  }
+
+  // Generar el saludo
+  const saludo = generarSaludo(nombre, edad, genero, idioma);
+
+  // Mostrar el saludo en la página
+  document.getElementById("saludo-div").textContent = saludo;
+}
+
+// Asignar el evento de envío del formulario
+document.getElementById("saludo-form").addEventListener("submit", manejarEnvio);
